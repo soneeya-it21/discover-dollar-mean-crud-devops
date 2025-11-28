@@ -1,4 +1,3 @@
-# --- Stage 1: Build Angular Frontend ---
 FROM node:18-alpine AS build
 
 WORKDIR /app
@@ -9,11 +8,13 @@ RUN npm install
 COPY . .
 RUN npm run build --prod
 
-# --- Stage 2: Serve Using NGINX ---
 FROM nginx:alpine
 
-# Copy compiled Angular files to NGINX html folder
+# Copy built Angular files
 COPY --from=build /app/dist/angular-15-crud /usr/share/nginx/html
+
+# Use our custom SPA nginx config
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 
