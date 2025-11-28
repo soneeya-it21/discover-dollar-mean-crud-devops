@@ -26,7 +26,6 @@ services:
   nginx:
     image: nginx:alpine
     container_name: mean-nginx
-    restart: unless-stopped
     depends_on:
       - frontend
       - backend
